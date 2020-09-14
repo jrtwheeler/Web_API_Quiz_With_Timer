@@ -5,12 +5,19 @@ var cardText = document.querySelector(".question");
 //Use querySelector to select the Submit button
 var submitButton = document.querySelector(".btn");
 
-var timeLeft = 10;
+var questions = [
+  {
+    title: "Commonly used data types DO NOT include:",
+    choices: ["strings", "booleans", "alerts", "numbers"],
+    answer: "alerts"
+  },
+
+var timeLeft = 60;
 
 function setTime() {
     var timerInterval = setInterval(function() {
         timeLeft--;
-      timerElement.textContent = "Timer: " + timeLeft;
+      timerElement.textContent = "Timer: 0:" + timeLeft;
   
       if(timeLeft === 0) {
         clearInterval(timerInterval);
@@ -18,12 +25,6 @@ function setTime() {
       }
   
     }, 1000);
-  }
-
-submitButton.addEventListener("mouseover", function(){ buttonColor(submitButton) });
-
-function buttonColor(button) {
-    button.style.backgroundColor = "red";
   }
 
 submitButton.addEventListener("click", function(){
@@ -38,7 +39,6 @@ submitButton.addEventListener("click", function(){
     //Update the text content in cardText
     questionParagraph.textContent = "New";
     submitButton.textContent = "Submit";
-    submitButton.style.backgroundColor = "gray";
 }) 
 
 function init (){
