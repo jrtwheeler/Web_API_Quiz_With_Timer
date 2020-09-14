@@ -52,12 +52,14 @@ header {
   height: 2px;
 }
 
-.card-body {
+.timer {
   min-height: 100px;
   text-align: center;
+  font-size: 22px;
+  line-height: 22px;
 }
 
-.card-footer, .timer {
+.card-footer {
   text-align: center;
 }
 
