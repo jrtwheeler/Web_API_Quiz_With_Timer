@@ -10,12 +10,11 @@ var timeLeft = 10;
 function setTime() {
     var timerInterval = setInterval(function() {
         timeLeft--;
-      timerElement.textContent = timeLeft;
+      timerElement.textContent = "Timer: " + timeLeft;
   
       if(timeLeft === 0) {
         clearInterval(timerInterval);
-        window.open("https://www.w3schools.com", "_self");
-        window.open("https://www.w3schools.com", "_self");
+        //window.open("high_score.html", "_self");
       }
   
     }, 1000);
