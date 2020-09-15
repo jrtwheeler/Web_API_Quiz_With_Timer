@@ -20,7 +20,7 @@ var myQuestions = [
     answers: {
       a: "Javascript",
       b: "CSS",
-      c: "HTML"
+      c: "HTML",
       d: "All of the above"
     },
     correctAnswer: "c"
@@ -90,7 +90,7 @@ var myQuestions = [
     answers: {
       a: "objectName.propertyName.",
       b: "Invoking the object.",
-      c: "objectName["propertyName"].",
+      c: "objectName['propertyName'].",
       d: "Both a and c."
     },
     correctAnswer: "d"
