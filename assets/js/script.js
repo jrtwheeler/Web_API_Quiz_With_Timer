@@ -5,6 +5,7 @@ var cardText = document.querySelector(".question");
 //Use querySelector to select the Submit button
 var submitButton = document.querySelector(".btn");
 
+//Object of questions, answers, correct answer
 var myQuestions = [
   {
     question: "Who invented JavaScript?",
