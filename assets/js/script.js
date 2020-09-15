@@ -16,24 +16,75 @@ var myQuestions = [
     correctAnswer: "c"
   },
   {
-    question: "Which one of these is a JavaScript package manager?",
+    question: "Which one of these is one of three languages all web developers must learn?",
     answers: {
-      a: "Node.js",
-      b: "TypeScript",
-      c: "npm"
+      a: "Javascript",
+      b: "CSS",
+      c: "HTML"
+      d: "All of the above"
     },
     correctAnswer: "c"
   },
   {
-    question: "Which tool can you use to ensure code quality?",
+    question: "How is a comment written in Javascript?",
     answers: {
-      a: "Angular",
-      b: "jQuery",
-      c: "RequireJS",
-      d: "ESLint"
+      a: "//",
+      b: "<-- -->",
+      c: "/*",
+      d: "@Comment"
+    },
+    correctAnswer: "a"
+  },
+  {
+    question: "JavaScript variables are containers for storing:",
+    answers: {
+      a: "data values",
+      b: "strings",
+      c: "booleans",
+      d: "numbers"
+    },
+    correctAnswer: "a"
+  },
+  {
+    question: "Which of the following is not a Javascript operator",
+    answers: {
+      a: "+",
+      b: "**",
+      c: "~",
+      d: "%"
+    },
+    correctAnswer: "c"
+  },
+  {
+    question: "Which of the following best defines a primitive data type?",
+    answers: {
+      a: "A primitive data value is a single simple data value with additional properties and methods.",
+      b: "A primitive data value is a single simple data value with no additional properties and methods.",
+      c: "A primitive data value is a single simple data value.",
+      d: "A primitive data value is a function or object."
+    },
+    correctAnswer: "b"
+  },
+  {
+    question: "When is a function invoked?",
+    answers: {
+      a: "When it is assigned to a const variable.",
+      b: "When an event occurs (when a user clicks a button).",
+      c: "When it is invoked (called) from JavaScript code.",
+      d: "Both b and c."
     },
     correctAnswer: "d"
-  }
+  },
+  {
+    question: "When is a function invoked?",
+    answers: {
+      a: "When it is assigned to a const variable.",
+      b: "When an event occurs (when a user clicks a button).",
+      c: "When it is invoked (called) from JavaScript code.",
+      d: "Both b and c."
+    },
+    correctAnswer: "d"
+  },
 ];
 
 var timeLeft = 60;
@@ -99,6 +150,41 @@ function setContent(){
 
   // finally combine our output list into one string of HTML and put it on the page
   cardText.innerHTML = output.join('');
+}
+
+function showResults(){
+
+  // gather answer containers from our quiz
+  const answerContainers = cardText.querySelectorAll('.answers');
+
+  // keep track of user's answers
+  let numCorrect = 0;
+
+  // for each question...
+  myQuestions.forEach( (currentQuestion, questionNumber) => {
+
+    // find selected answer
+    const answerContainer = answerContainers[questionNumber];
+    const selector = `input[name=question${questionNumber}]:checked`;
+    const userAnswer = (answerContainer.querySelector(selector) || {}).value;
+
+    // if answer is correct
+    if(userAnswer === currentQuestion.correctAnswer){
+      // add to the number of correct answers
+      numCorrect++;
+
+      // color the answers green
+      answerContainers[questionNumber].style.color = 'lightgreen';
+    }
+    // if answer is wrong or blank
+    else{
+      // color the answers red
+      answerContainers[questionNumber].style.color = 'red';
+    }
+  });
+
+  // show number of correct answers out of total
+  resultsContainer.innerHTML = `${numCorrect} out of ${myQuestions.length}`;
 }
 
 function init (){
