@@ -85,6 +85,26 @@ var myQuestions = [
     },
     correctAnswer: "d"
   },
+  {
+    question: "How can you access object properties?",
+    answers: {
+      a: "objectName.propertyName.",
+      b: "Invoking the object.",
+      c: "objectName["propertyName"].",
+      d: "Both a and c."
+    },
+    correctAnswer: "d"
+  },
+  {
+    question: "Which of the following is not a Javascript event?",
+    answers: {
+      a: "onmouseover",
+      b: "onrange",
+      c: "onchange",
+      d: "onclick"
+    },
+    correctAnswer: "b"
+  },
 ];
 
 var timeLeft = 60;
