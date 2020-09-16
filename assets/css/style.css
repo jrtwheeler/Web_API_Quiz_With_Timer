@@ -32,6 +32,10 @@ header {
 
 }
 
+.question {
+  text-align: center;
+}
+
 .card, .high_score {
   background-color: hsl(0, 0%, 100%);
   border-radius: 5px;

@@ -109,33 +109,47 @@ var myQuestions = [
 ];
 
 var timeLeft = 60;
+//This is the introductory paragraph
+var myIntro = "Try to answer the following coding questions in one minute. Every wrong answer takes ten seconds from the timer. Press start to begin."
 
+//The timer function. The timer function starts running when the user clicks the Start button and is called in function startScreen();
 function setTime() {
-    var timerInterval = setInterval(function() {
-        timeLeft--;
-      timerElement.textContent = "Timer: 0:" + timeLeft;
+  var timerInterval = setInterval(function() {
+    timeLeft--;
+    timerElement.textContent = "Timer: 0:" + timeLeft;
+    
+    if(timeLeft < 10) {
+      timerElement.textContent = "Timer: 0:0" + timeLeft;
+    }
+    if(timeLeft === 0) {
+      clearInterval(timerInterval);
+      //window.open("high_score.html", "_self");
+    }
   
-      if(timeLeft === 0) {
-        clearInterval(timerInterval);
-        //window.open("high_score.html", "_self");
-      }
-  
-    }, 1000);
-  }
+  }, 1000);
+}
 
-submitButton.addEventListener("click", function(){
-    //Create a paragraph element
-    var paragraph = document.createElement("p");
-    //Add an class name to the new paragraph
-    paragraph.id = "quiz_question"
-    //Append the card text with the paragraph element
-    cardText.appendChild(paragraph);
-    //Use querySelector to select the new paragraph
-    var questionParagraph = document.querySelector("#quiz_question");
-    //Update the text content in cardText
-    questionParagraph.textContent = "New";
-    submitButton.textContent = "Submit";
-}) 
+function startScreen (content) {
+  //var paragraph = document.createElement("p");
+  //Add an class name to the new paragraph
+  //paragraph.id = "quiz_question"
+  //Append the card text with the paragraph element
+  //cardText.appendChild(paragraph);
+  //Use querySelector to select the new paragraph
+  //var questionParagraph = document.querySelector("#quiz_question");
+  //Update the text content in cardText
+  cardText.textContent = content;
+  cardText.setAttribute("style", "text-align: center;");
+  cardText.setAttribute("style", "font-size: 16px;");
+}
+
+//Start button is called in init. It sets up the start screen.
+function startButton (){
+  startScreen (myIntro);
+  submitButton.addEventListener("click", function(){
+    setTime();
+  })
+}
 
 function setContent(){
   // variable to store the HTML output
@@ -209,9 +223,7 @@ function showResults(){
 }
 
 function init (){
-  setTime();
-
-  setContent ()
+  startButton ();
 
 }
 
