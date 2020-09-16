@@ -45,7 +45,142 @@ var myQuestions = [
       d: "numbers"
     },
     correctAnswer: "a"
-  },
+  }
+];
+
+var timeLeft = 60;
+var scoreCounter = 0;
+var questionCounter = 0;
+var quizLength = myQuestions.length;
+//This is the introductory paragraph
+var myIntro = "Try to answer the following coding questions in one minute. Every wrong answer takes ten seconds from the timer. Press start to begin."
+
+//The timer function. The timer function starts running when the user clicks the Start button and is called in function startScreen();
+function setTime() {
+  var timerInterval = setInterval(function() {
+    timeLeft--;
+    timerElement.textContent = "Timer: 0:" + timeLeft;
+    
+    if(timeLeft < 10) {
+      timerElement.textContent = "Timer: 0:0" + timeLeft;
+    }
+    if(timeLeft === 0) {
+      clearInterval(timerInterval);
+      window.open("high_score.html", "_self");
+    }
+  
+  }, 1000);
+}
+
+function startScreen (content) {
+  cardText.textContent = content;
+  cardText.setAttribute("style", "text-align: center;");
+  cardText.setAttribute("style", "font-size: 16px;");
+}
+
+//Start button is called in init. It sets up the start screen.
+function startButton (){
+  startScreen (myIntro);
+  submitButton.addEventListener("click", function(){
+    setTime();
+    setContent();
+  })
+}
+
+function setContent(){
+
+  if (questionCounter < quizLength){
+
+  cardText.textContent = "";
+  let q = myQuestions[questionCounter];
+  var questionParagraph = document.createElement("p");
+  questionParagraph.id = "quiz_question";
+  cardText.appendChild(questionParagraph);
+  var questionParagraphSelector = document.querySelector("#quiz_question");
+  questionParagraphSelector.textContent = q.question;
+  var myList = document.createElement("OL");
+  questionParagraphSelector.appendChild(myList);
+
+  var listItemOne = document.createElement("LI");
+  myList.appendChild(listItemOne);
+  var buttonOne = document.createElement("BUTTON");
+  listItemOne.appendChild(buttonOne);
+  buttonOne.textContent = q.answers.a;
+  console.log(q.correctAnswer)
+  buttonOne.addEventListener("click", function(){
+    if(q.answers.a === q.correctAnswer){
+      console.log("Working");
+      score ++;
+    } else {
+      console.log("Also working")
+      timeLeft = timeLeft - 10;
+    }
+  })
+
+  var listItemOne = document.createElement("LI");
+  myList.appendChild(listItemOne);
+  listItemOne.textContent = q.answers.b;
+
+  var listItemOne = document.createElement("LI");
+  myList.appendChild(listItemOne);
+  listItemOne.textContent = q.answers.c;
+
+  } 
+  
+  else if (questionCounter > quizLength){
+    window.open("high_score.html", "_self");
+  }
+
+  submitButton.addEventListener("click", function(){
+    questionCounter ++;
+  })
+
+}
+
+function showResults(){
+
+  // gather answer containers from our quiz
+  const answerContainers = cardText.querySelectorAll('.answers');
+
+  // keep track of user's answers
+  let numCorrect = 0;
+
+  // for each question...
+  myQuestions.forEach( (currentQuestion, questionNumber) => {
+
+    // find selected answer
+    const answerContainer = answerContainers[questionNumber];
+    const selector = `input[name=question${questionNumber}]:checked`;
+    const userAnswer = (answerContainer.querySelector(selector) || {}).value;
+
+    // if answer is correct
+    if(userAnswer === currentQuestion.correctAnswer){
+      // add to the number of correct answers
+      numCorrect++;
+
+      // color the answers green
+      answerContainers[questionNumber].style.color = 'lightgreen';
+    }
+    // if answer is wrong or blank
+    else{
+      // color the answers red
+      answerContainers[questionNumber].style.color = 'red';
+    }
+  });
+
+  // show number of correct answers out of total
+  resultsContainer.innerHTML = `${numCorrect} out of ${myQuestions.length}`;
+}
+
+function init (){
+  startButton ();
+  
+
+}
+
+function x () {
+  var MyOtherQuestions = [
+  
   {
     question: "Which of the following is not a Javascript operator",
     answers: {
@@ -105,130 +240,7 @@ var myQuestions = [
       d: "onclick"
     },
     correctAnswer: "b"
-  },
-];
-
-var timeLeft = 60;
-//This is the introductory paragraph
-var myIntro = "Try to answer the following coding questions in one minute. Every wrong answer takes ten seconds from the timer. Press start to begin."
-
-//The timer function. The timer function starts running when the user clicks the Start button and is called in function startScreen();
-function setTime() {
-  var timerInterval = setInterval(function() {
-    timeLeft--;
-    timerElement.textContent = "Timer: 0:" + timeLeft;
-    
-    if(timeLeft < 10) {
-      timerElement.textContent = "Timer: 0:0" + timeLeft;
-    }
-    if(timeLeft === 0) {
-      clearInterval(timerInterval);
-      //window.open("high_score.html", "_self");
-    }
-  
-  }, 1000);
-}
-
-function startScreen (content) {
-  //var paragraph = document.createElement("p");
-  //Add an class name to the new paragraph
-  //paragraph.id = "quiz_question"
-  //Append the card text with the paragraph element
-  //cardText.appendChild(paragraph);
-  //Use querySelector to select the new paragraph
-  //var questionParagraph = document.querySelector("#quiz_question");
-  //Update the text content in cardText
-  cardText.textContent = content;
-  cardText.setAttribute("style", "text-align: center;");
-  cardText.setAttribute("style", "font-size: 16px;");
-}
-
-//Start button is called in init. It sets up the start screen.
-function startButton (){
-  startScreen (myIntro);
-  submitButton.addEventListener("click", function(){
-    setTime();
-  })
-}
-
-function setContent(){
-  // variable to store the HTML output
-  const output = [];
-
-  // for each question...
-  myQuestions.forEach(
-    (currentQuestion, questionNumber) => {
-
-      // variable to store the list of possible answers
-      const answers = [];
-
-      // and for each available answer...
-      for(letter in currentQuestion.answers){
-
-        // ...add an HTML radio button
-        answers.push(
-          `<label>
-            <input type="radio" name="question${questionNumber}" value="${letter}">
-            ${letter} :
-            ${currentQuestion.answers[letter]}
-          </label>`
-        );
-      }
-
-      // add this question and its answers to the output
-      output.push(
-        `<div class="question"> ${currentQuestion.question} </div>
-        <div class="answers"> ${answers.join('')} </div>`
-      );
-    }
-  );
-
-  // finally combine our output list into one string of HTML and put it on the page
-  cardText.innerHTML = output.join('');
-}
-
-function showResults(){
-
-  // gather answer containers from our quiz
-  const answerContainers = cardText.querySelectorAll('.answers');
-
-  // keep track of user's answers
-  let numCorrect = 0;
-
-  // for each question...
-  myQuestions.forEach( (currentQuestion, questionNumber) => {
-
-    // find selected answer
-    const answerContainer = answerContainers[questionNumber];
-    const selector = `input[name=question${questionNumber}]:checked`;
-    const userAnswer = (answerContainer.querySelector(selector) || {}).value;
-
-    // if answer is correct
-    if(userAnswer === currentQuestion.correctAnswer){
-      // add to the number of correct answers
-      numCorrect++;
-
-      // color the answers green
-      answerContainers[questionNumber].style.color = 'lightgreen';
-    }
-    // if answer is wrong or blank
-    else{
-      // color the answers red
-      answerContainers[questionNumber].style.color = 'red';
-    }
-  });
-
-  // show number of correct answers out of total
-  resultsContainer.innerHTML = `${numCorrect} out of ${myQuestions.length}`;
-}
-
-function init (){
-  startButton ();
-
-}
-
-function x () {
-
+  },]
 }
 
 init ();
