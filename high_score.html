@@ -11,22 +11,19 @@
 </head>
 
 <body>
-    <section class="wrapper">
-      <header>
-        <h1>All Done</h1>
-      </header>
-        <section class="high_score">
-            <form id="high_score_form" method="POST">
-                <label for="high_score_text">Add high score:</label>
-                <input type="text" placeholder="What needs to be done?" name="todo-text" id="todo-text" />
-            </form>
-                      
-            <div class="card-footer">
-                <button class ="highScore" id="generate" class="btn">Submit</button>
-            </div>
-        </div>
-    </div>
-    <script src="assets/js/script.js"></script>
+  <div class="todos">
+    <article>
+      <h1>All Done</h1>
+      <h2 id = "score"></h2>
+    </article>
+    <form id="todo-form" method="POST">
+      <label for="todo-text">Enter Initials:</label>
+      <input type="text" placeholder="What needs to be done?" name="todo-text" id="todo-text" />
+    </form>
+    <p id="todo-count">0</p>
+    <ul id="todo-list"></ul>
+  </div>
+    <script src="assets/js/script_high_score.js"></script>
   </body>
 
 </html>

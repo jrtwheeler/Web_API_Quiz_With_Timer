@@ -18,7 +18,7 @@ var myQuestions = [
       c: "HTML",
       d: "All of the above"
     },
-    correctAnswer: "c"
+    correctAnswer: "All of the above"
   },
   {
     question: "How is a comment written in Javascript?",
@@ -28,7 +28,7 @@ var myQuestions = [
       c: "/*",
       d: "@Comment"
     },
-    correctAnswer: "a"
+    correctAnswer: "//"
   },
   {
     question: "JavaScript variables are containers for storing:",
@@ -38,7 +38,7 @@ var myQuestions = [
       c: "booleans",
       d: "numbers"
     },
-    correctAnswer: "a"
+    correctAnswer: "data values"
   }
 ];
 //Use querySelector to select the timer
@@ -96,8 +96,7 @@ function startButton (){
 
 //The set content function takes data from the myQuestions object to start the quiz 
 function setContent(){
-  console.log(questionCounter)
-  //console.log(scoreCounter)
+
   //if the questionCounter is less than the length of the quiz ...
   if (questionCounter < quizLength){
   //Clear the cardText text content
@@ -126,11 +125,12 @@ function setContent(){
   buttonOne.textContent = q.answers.a;
   buttonOne.addEventListener("click", function(){
     if(q.answers.a === q.correctAnswer){
-      scoreCounter ++;
+      scoreCounter +=1;
       questionCounter ++;
       setContent();
     } else {
       questionCounter ++;
+      timeLeft -=10;
       setContent();
     }
      
@@ -144,12 +144,12 @@ function setContent(){
   buttonTwo.textContent = q.answers.b;
   buttonTwo.addEventListener("click", function(){
     if(q.answers.b === q.correctAnswer){
-      scoreCounter ++;
+      scoreCounter +=1;
       questionCounter ++;
-      console.log(questionCounter)
       setContent();
     } else {
       questionCounter ++;
+      timeLeft -=10;
       setContent();
     }
      
@@ -163,11 +163,12 @@ function setContent(){
   buttonThree.textContent = q.answers.c;
   buttonThree.addEventListener("click", function(){
     if(q.answers.c === q.correctAnswer){
-      scoreCounter ++;
+      scoreCounter +=1;
       questionCounter ++;
       setContent();
     } else {
       questionCounter ++;
+      timeLeft -=10;
       setContent();
     }
      
@@ -181,56 +182,20 @@ function setContent(){
   buttonFour.textContent = q.answers.d;
   buttonFour.addEventListener("click", function(){
     if(q.answers.d === q.correctAnswer){
-      scoreCounter ++;
+      scoreCounter +=1;
       questionCounter ++;
       setContent();
     } else {
       questionCounter ++;
+      timeLeft -=10;
       setContent();
     }
      
   })
 } else {
+  localStorage.setItem("scoreCounter", scoreCounter)
   window.open("high_score.html", "_self");
-  console.log(scoreCounter);
-  console.log(questionCounter);
-  //Return high score
 }
-}
-
-function showResults(){
-
-  // gather answer containers from our quiz
-  const answerContainers = cardText.querySelectorAll('.answers');
-
-  // keep track of user's answers
-  let numCorrect = 0;
-
-  // for each question...
-  myQuestions.forEach( (currentQuestion, questionNumber) => {
-
-    // find selected answer
-    const answerContainer = answerContainers[questionNumber];
-    const selector = `input[name=question${questionNumber}]:checked`;
-    const userAnswer = (answerContainer.querySelector(selector) || {}).value;
-
-    // if answer is correct
-    if(userAnswer === currentQuestion.correctAnswer){
-      // add to the number of correct answers
-      numCorrect++;
-
-      // color the answers green
-      answerContainers[questionNumber].style.color = 'lightgreen';
-    }
-    // if answer is wrong or blank
-    else{
-      // color the answers red
-      answerContainers[questionNumber].style.color = 'red';
-    }
-  });
-
-  // show number of correct answers out of total
-  resultsContainer.innerHTML = `${numCorrect} out of ${myQuestions.length}`;
 }
 
 function init (){
@@ -238,93 +203,5 @@ function init (){
   startButton ();
 }
 
-function quizButtons (answer, correctAnswer, list) {
-  var listItemOne = document.createElement("LI");
-  myList.appendChild(listItemOne);
-  var buttonOne = document.createElement("BUTTON");
-  listItemOne.appendChild(buttonOne);
-  buttonOne.id = "quiz_button";
-  buttonOne.textContent = answer;
-  console.log(q.correctAnswer)
-  buttonOne.addEventListener("click", function(){
-    if(answer === correctAnswer){
-      scoreCounter ++;
-      questionCounter ++;
-      setContent();
-      //clear content
-    } else {
-      timeLeft = timeLeft - 10;
-      setContent();
-      questionCounter ++;
-      //clear content
-    }
-     
-  })
-}
-
-function x () {
-  var MyOtherQuestions = [
-  
-  {
-    question: "Which of the following is not a Javascript operator",
-    answers: {
-      a: "+",
-      b: "**",
-      c: "~",
-      d: "%"
-    },
-    correctAnswer: "c"
-  },
-  {
-    question: "Which of the following best defines a primitive data type?",
-    answers: {
-      a: "A primitive data value is a single simple data value with additional properties and methods.",
-      b: "A primitive data value is a single simple data value with no additional properties and methods.",
-      c: "A primitive data value is a single simple data value.",
-      d: "A primitive data value is a function or object."
-    },
-    correctAnswer: "b"
-  },
-  {
-    question: "When is a function invoked?",
-    answers: {
-      a: "When it is assigned to a const variable.",
-      b: "When an event occurs (when a user clicks a button).",
-      c: "When it is invoked (called) from JavaScript code.",
-      d: "Both b and c."
-    },
-    correctAnswer: "d"
-  },
-  {
-    question: "When is a function invoked?",
-    answers: {
-      a: "When it is assigned to a const variable.",
-      b: "When an event occurs (when a user clicks a button).",
-      c: "When it is invoked (called) from JavaScript code.",
-      d: "Both b and c."
-    },
-    correctAnswer: "d"
-  },
-  {
-    question: "How can you access object properties?",
-    answers: {
-      a: "objectName.propertyName.",
-      b: "Invoking the object.",
-      c: "objectName['propertyName'].",
-      d: "Both a and c."
-    },
-    correctAnswer: "d"
-  },
-  {
-    question: "Which of the following is not a Javascript event?",
-    answers: {
-      a: "onmouseover",
-      b: "onrange",
-      c: "onchange",
-      d: "onclick"
-    },
-    correctAnswer: "b"
-  },]
-}
 
 init ();
