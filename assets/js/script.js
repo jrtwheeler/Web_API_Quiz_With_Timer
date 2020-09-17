@@ -5,7 +5,8 @@ var myQuestions = [
     answers: {
       a: "Douglas Crockford",
       b: "Sheryl Sandberg",
-      c: "Brendan Eich"
+      c: "Brendan Eich",
+      d: "Steve Jobs"
     },
     correctAnswer: "Douglas Crockford"
   },
@@ -56,7 +57,6 @@ var questionCounter = 0;
 var quizLength = myQuestions.length;
 //This is the introductory paragraph
 var myIntro = "Try to answer the following coding questions in one minute. Every wrong answer takes ten seconds from the timer. Press start to begin."
-
 //The timer function. The timer function starts running when the user clicks the Start button and is called in function startScreen();
 function setTime() {
   var timerInterval = setInterval(function() {
@@ -76,14 +76,14 @@ function setTime() {
 
 //Set the styling for the start screen intro paragraph
 function startScreen (content) {
-  cardText.textContent = content;
-  cardText.setAttribute("style", "text-align: center;");
-  cardText.setAttribute("style", "font-size: 16px;");
+    cardText.textContent = content;
+    cardText.setAttribute("style", "text-align: center;");
+    cardText.setAttribute("style", "font-size: 16px;");
 }
 
 //Start button is called in init. It sets up the start screen.
 function startButton (){
-  startScreen (myIntro);
+  
   submitButton.addEventListener("click", function(){
     //Call the setTime function to start the timer
     setTime();
@@ -96,6 +96,8 @@ function startButton (){
 
 //The set content function takes data from the myQuestions object to start the quiz 
 function setContent(){
+  console.log(questionCounter)
+  //console.log(scoreCounter)
   //if the questionCounter is less than the length of the quiz ...
   if (questionCounter < quizLength){
   //Clear the cardText text content
@@ -113,52 +115,87 @@ function setContent(){
   //Put the question from the the myQuestion object into the newly created paragraph element
   questionParagraphSelector.textContent = q.question;
   //Create a list element
-  var myList = document.createElement("OL");
+  var myList = document.createElement("UL");
   questionParagraphSelector.appendChild(myList);
 
   var listItemOne = document.createElement("LI");
   myList.appendChild(listItemOne);
   var buttonOne = document.createElement("BUTTON");
   listItemOne.appendChild(buttonOne);
+  buttonOne.id = "quiz_button";
   buttonOne.textContent = q.answers.a;
-  console.log(q.correctAnswer)
   buttonOne.addEventListener("click", function(){
     if(q.answers.a === q.correctAnswer){
-      console.log(q.correctAnswer);
-      console.log(q.answers.a);
       scoreCounter ++;
       questionCounter ++;
       setContent();
-      //clear content
     } else {
-      console.log(q.answers.a)
-      timeLeft = timeLeft - 10;
-      setContent();
       questionCounter ++;
-      //clear content
+      setContent();
     }
      
   })
 
-  var listItemOne = document.createElement("LI");
-  myList.appendChild(listItemOne);
-  listItemOne.textContent = q.answers.b;
-
-  var listItemOne = document.createElement("LI");
-  myList.appendChild(listItemOne);
-  listItemOne.textContent = q.answers.c;
-
-  } 
-  
-  else if (questionCounter > quizLength){
-    window.open("high_score.html", "_self");
-    //Return high score
-  }
-
-  submitButton.addEventListener("click", function(){
-    questionCounter ++;
+  var listItemTwo = document.createElement("LI");
+  myList.appendChild(listItemTwo);
+  var buttonTwo = document.createElement("BUTTON");
+  listItemTwo.appendChild(buttonTwo);
+  buttonTwo.id = "quiz_button";
+  buttonTwo.textContent = q.answers.b;
+  buttonTwo.addEventListener("click", function(){
+    if(q.answers.b === q.correctAnswer){
+      scoreCounter ++;
+      questionCounter ++;
+      console.log(questionCounter)
+      setContent();
+    } else {
+      questionCounter ++;
+      setContent();
+    }
+     
   })
 
+  var listItemThree = document.createElement("LI");
+  myList.appendChild(listItemThree);
+  var buttonThree = document.createElement("BUTTON");
+  listItemThree.appendChild(buttonThree);
+  buttonThree.id = "quiz_button";
+  buttonThree.textContent = q.answers.c;
+  buttonThree.addEventListener("click", function(){
+    if(q.answers.c === q.correctAnswer){
+      scoreCounter ++;
+      questionCounter ++;
+      setContent();
+    } else {
+      questionCounter ++;
+      setContent();
+    }
+     
+  })
+
+  var listItemFour = document.createElement("LI");
+  myList.appendChild(listItemFour);
+  var buttonFour = document.createElement("BUTTON");
+  listItemFour.appendChild(buttonFour);
+  buttonFour.id = "quiz_button";
+  buttonFour.textContent = q.answers.d;
+  buttonFour.addEventListener("click", function(){
+    if(q.answers.d === q.correctAnswer){
+      scoreCounter ++;
+      questionCounter ++;
+      setContent();
+    } else {
+      questionCounter ++;
+      setContent();
+    }
+     
+  })
+} else {
+  window.open("high_score.html", "_self");
+  console.log(scoreCounter);
+  console.log(questionCounter);
+  //Return high score
+}
 }
 
 function showResults(){
@@ -197,9 +234,32 @@ function showResults(){
 }
 
 function init (){
+  startScreen (myIntro);
   startButton ();
-  
+}
 
+function quizButtons (answer, correctAnswer, list) {
+  var listItemOne = document.createElement("LI");
+  myList.appendChild(listItemOne);
+  var buttonOne = document.createElement("BUTTON");
+  listItemOne.appendChild(buttonOne);
+  buttonOne.id = "quiz_button";
+  buttonOne.textContent = answer;
+  console.log(q.correctAnswer)
+  buttonOne.addEventListener("click", function(){
+    if(answer === correctAnswer){
+      scoreCounter ++;
+      questionCounter ++;
+      setContent();
+      //clear content
+    } else {
+      timeLeft = timeLeft - 10;
+      setContent();
+      questionCounter ++;
+      //clear content
+    }
+     
+  })
 }
 
 function x () {
