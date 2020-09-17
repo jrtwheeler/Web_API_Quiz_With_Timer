@@ -14,7 +14,7 @@ var myQuestions = [
       b: "Sheryl Sandberg",
       c: "Brendan Eich"
     },
-    correctAnswer: "c"
+    correctAnswer: "Douglas Crockford"
   },
   {
     question: "Which one of these is one of three languages all web developers must learn?",
@@ -84,6 +84,7 @@ function startButton (){
   submitButton.addEventListener("click", function(){
     setTime();
     setContent();
+    //hide start button
   })
 }
 
@@ -109,11 +110,18 @@ function setContent(){
   console.log(q.correctAnswer)
   buttonOne.addEventListener("click", function(){
     if(q.answers.a === q.correctAnswer){
-      console.log("Working");
-      score ++;
+      console.log(q.correctAnswer);
+      console.log(q.answers.a);
+      scoreCounter ++;
+      questionCounter ++;
+      setContent();
+      //clear content
     } else {
-      console.log("Also working")
+      console.log(q.answers.a)
       timeLeft = timeLeft - 10;
+      setContent();
+      questionCounter ++;
+      //clear content
     }
   })
 
