@@ -82,17 +82,23 @@ function startScreen (content) {
 function startButton (){
   startScreen (myIntro);
   submitButton.addEventListener("click", function(){
+    //Call the setTime function to start the timer
     setTime();
+    //Call the setContent button to start the quiz section
     setContent();
-    //hide start button
+    //hide Start button
+    submitButton.style.display = 'none';
+    //empty the cardText of the introductory paragraph 
+    cardText.textContent = "";
   })
 }
 
+//The set content function takes data from the myQuestions object to start the quiz 
 function setContent(){
 
   if (questionCounter < quizLength){
 
-  cardText.textContent = "";
+  
   let q = myQuestions[questionCounter];
   var questionParagraph = document.createElement("p");
   questionParagraph.id = "quiz_question";
