@@ -1,10 +1,3 @@
-//Use querySelector to select the timer
-var timerElement = document.querySelector(".timer");
-//Use querySelector to select the timer
-var cardText = document.querySelector(".question");
-//Use querySelector to select the Submit button
-var submitButton = document.querySelector(".btn");
-
 //Object of questions, answers, correct answer
 var myQuestions = [
   {
@@ -47,10 +40,19 @@ var myQuestions = [
     correctAnswer: "a"
   }
 ];
-
+//Use querySelector to select the timer
+var timerElement = document.querySelector(".timer");
+//Use querySelector to select the timer
+var cardText = document.querySelector(".question");
+//Use querySelector to select the Submit button
+var submitButton = document.querySelector(".btn");
+//Set the start time for the timer. When the timer reaches 0 the script will end.
 var timeLeft = 60;
+//Set the score counter
 var scoreCounter = 0;
+//Set the question counter
 var questionCounter = 0;
+//Set the length of the quiz. When the user answers the number of questions that equal the length of the quiz, the quiz will end.
 var quizLength = myQuestions.length;
 //This is the introductory paragraph
 var myIntro = "Try to answer the following coding questions in one minute. Every wrong answer takes ten seconds from the timer. Press start to begin."
@@ -72,6 +74,7 @@ function setTime() {
   }, 1000);
 }
 
+//Set the styling for the start screen intro paragraph
 function startScreen (content) {
   cardText.textContent = content;
   cardText.setAttribute("style", "text-align: center;");
@@ -88,23 +91,28 @@ function startButton (){
     setContent();
     //hide Start button
     submitButton.style.display = 'none';
-    //empty the cardText of the introductory paragraph 
-    cardText.textContent = "";
   })
 }
 
 //The set content function takes data from the myQuestions object to start the quiz 
 function setContent(){
-
+  //if the questionCounter is less than the length of the quiz ...
   if (questionCounter < quizLength){
-
-  
-  let q = myQuestions[questionCounter];
+  //Clear the cardText text content
+  cardText.textContent = "";
+  //Q is the question at the questionCounter array position. Each time the user answers a question, one is added to the question counter, moving onto the next question
+  var q = myQuestions[questionCounter];
+  //Create a paragraph element
   var questionParagraph = document.createElement("p");
+  //Give the paragraph element an id
   questionParagraph.id = "quiz_question";
+  //Append the paragraph element to the cardText
   cardText.appendChild(questionParagraph);
+  //Select the paragraph element by id
   var questionParagraphSelector = document.querySelector("#quiz_question");
+  //Put the question from the the myQuestion object into the newly created paragraph element
   questionParagraphSelector.textContent = q.question;
+  //Create a list element
   var myList = document.createElement("OL");
   questionParagraphSelector.appendChild(myList);
 
@@ -129,6 +137,7 @@ function setContent(){
       questionCounter ++;
       //clear content
     }
+     
   })
 
   var listItemOne = document.createElement("LI");
@@ -143,6 +152,7 @@ function setContent(){
   
   else if (questionCounter > quizLength){
     window.open("high_score.html", "_self");
+    //Return high score
   }
 
   submitButton.addEventListener("click", function(){

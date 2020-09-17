@@ -97,3 +97,7 @@ header {
   cursor: pointer;
 }
 
+#quiz_question {
+  text-align: left;
+}
+
