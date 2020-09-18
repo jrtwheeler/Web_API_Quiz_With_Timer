@@ -1,29 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>High Score</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-        integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
-    <link rel="stylesheet" href="./assets/css/style.css">
-</head>
-
-<body>
-  <div class="todos">
-    <article>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" href="./assets/css/style.css" />
+    <title>Todo List</title>
+  </head>
+  <body>
+    <section class="wrapper">
+    <header>
       <h1>All Done</h1>
-      <h2 id = "score"></h2>
-    </article>
-    <form id="todo-form" method="POST">
-      <label for="todo-text">Enter Initials:</label>
-      <input type="text" placeholder="What needs to be done?" name="todo-text" id="todo-text" />
-    </form>
-    <p id="todo-count">0</p>
-    <ul id="todo-list"></ul>
-  </div>
-    <script src="assets/js/script_high_score.js"></script>
+    </header>
+    <section class="card">
+      <div class="todos">
+        <h2 id = "score"></h2>
+        <form id="todo-form" method="POST">
+          <label for="todo-text">Add Initials:</label>
+          <input type="text" placeholder="Add initials to log high score" name="todo-text" id="todo-text" />
+        </form>
+        <ul id="todo-list"></ul>
+      </div>
+      <div class="card-footer">
+        <button id="generate" class="btn">Clear</button>
+        <button id="restart" class="btn">Re-Start</button>
+      </div>
+    </section>
+    </section>
+    <script src="./assets/js/script_high_score.js"></script>
   </body>
-
 </html>
