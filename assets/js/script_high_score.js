@@ -1,7 +1,7 @@
 var scoreOutput = document.querySelector("#score");
-var todoInput = document.querySelector("#todo-text");
-var todoForm = document.querySelector("#todo-form");
-var todoList = document.querySelector("#todo-list");
+var scoreInput = document.querySelector("#score-text");
+var scoreForm = document.querySelector("#score-form");
+var scoreList = document.querySelector("#score-list");
 var clearButton = document.querySelector(".btn");
 var restartButton = document.querySelector("#restart");
 
@@ -11,12 +11,12 @@ scoreOutput.textContent = "Final Score: " + score;
 
 init();
 
-function renderTodos() {
-  // Clear todoList element and update todoCountSpan
-  todoList.innerHTML = "";
+function renderScores() {
+  // Clear scoreList element
+  scoreList.innerHTML = "";
 
 
-  // Render a new li for each todo
+  // Render a new li for each score
   for (var i = 0; i < scoreArray.length; i++) {
     var todo = scoreArray[i] + ' ' + score;
 
@@ -24,52 +24,52 @@ function renderTodos() {
     li.textContent = todo;
     li.setAttribute("data-index", i);
 
-    todoList.appendChild(li);
+    scoreList.appendChild(li);
   }
 }
 
 function init() {
   // Get stored scoreArray from localStorage
   // Parsing the JSON string to an object
-  var storedTodos = JSON.parse(localStorage.getItem("scoreList"));
+  var storedScores = JSON.parse(localStorage.getItem("scoreList"));
 
   // If scoreArray were retrieved from localStorage, update the scoreArray to it
-  if (storedTodos !== null) {
-    scoreArray = storedTodos;
+  if (storedScores !== null) {
+    scoreArray = storedScores;
   }
 
-  // Render todos to the DOM
-  renderTodos();
+  // Render scores to the DOM
+  renderScores();
 }
 
-function storeTodos() {
+function storeScores() {
   // Stringify and set "todos" key in localStorage to todos array
   localStorage.setItem("scoreList", JSON.stringify(scoreArray));
 }
 
 // When form is submitted...
-todoForm.addEventListener("submit", function(event) {
+scoreForm.addEventListener("submit", function(event) {
   event.preventDefault();
 
-  var todoText = todoInput.value.trim();
+  var scoreText = scoreInput.value.trim();
 
   // Return from function early if submitted todoText is blank
-  if (todoText === "") {
+  if (scoreText === "") {
     return;
   }
 
   // Add new todoText to todos array, clear the input
-  scoreArray.push(todoText);
-  todoInput.value = "";
+  scoreArray.push(scoreText);
+  scoreInput.value = "";
 
-  // Store updated todos in localStorage, re-render the list
-  storeTodos();
-  renderTodos();
+  // Store updated scores in localStorage, re-render the list
+  storeScores();
+  renderScores();
 });
 
 clearButton.addEventListener("click", function(){
   scoreArray = [];
-  renderTodos();
+  renderScores();
 })
 
 restartButton.addEventListener("click", function(){
