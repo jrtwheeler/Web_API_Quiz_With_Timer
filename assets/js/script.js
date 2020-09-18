@@ -125,13 +125,9 @@ function setContent(){
   buttonOne.textContent = q.answers.a;
   buttonOne.addEventListener("click", function(){
     if(q.answers.a === q.correctAnswer){
-      scoreCounter +=1;
-      questionCounter ++;
-      setContent();
+      helper ("Right answer:");
     } else {
-      questionCounter ++;
-      timeLeft -=10;
-      setContent();
+      wrongAnswer ();
     }
      
   })
@@ -144,13 +140,9 @@ function setContent(){
   buttonTwo.textContent = q.answers.b;
   buttonTwo.addEventListener("click", function(){
     if(q.answers.b === q.correctAnswer){
-      scoreCounter +=1;
-      questionCounter ++;
-      setContent();
+      helper ("Right answer:");
     } else {
-      questionCounter ++;
-      timeLeft -=10;
-      setContent();
+      wrongAnswer ();
     }
      
   })
@@ -163,13 +155,9 @@ function setContent(){
   buttonThree.textContent = q.answers.c;
   buttonThree.addEventListener("click", function(){
     if(q.answers.c === q.correctAnswer){
-      scoreCounter +=1;
-      questionCounter ++;
-      setContent();
+      helper ("Right answer:");
     } else {
-      questionCounter ++;
-      timeLeft -=10;
-      setContent();
+      wrongAnswer ();
     }
      
   })
@@ -182,19 +170,39 @@ function setContent(){
   buttonFour.textContent = q.answers.d;
   buttonFour.addEventListener("click", function(){
     if(q.answers.d === q.correctAnswer){
-      scoreCounter +=1;
-      questionCounter ++;
-      setContent();
+      helper ("Right answer:");
     } else {
-      questionCounter ++;
-      timeLeft -=10;
-      setContent();
+      wrongAnswer ();
     }
      
   })
 } else {
   localStorage.setItem("scoreCounter", scoreCounter)
   window.open("high_score.html", "_self");
+}
+
+function helper (answer) {
+  var listItemAnswer = document.createElement("LI");
+  myList.appendChild(listItemAnswer);
+  listItemAnswer.id = "quiz_answer";
+  listItemAnswer.textContent = answer + " " + q.correctAnswer;
+  console.log(q.correctAnswer)
+  setTimeout(function(){ 
+    scoreCounter +=1;
+    questionCounter ++; 
+    setContent();}, 2000);
+}
+
+function wrongAnswer (){
+  var listItemAnswer = document.createElement("LI");
+  myList.appendChild(listItemAnswer);
+  listItemAnswer.id = "quiz_answer";
+  listItemAnswer.textContent = "Wrong answer";
+  console.log(q.correctAnswer)
+  setTimeout(function(){ 
+    questionCounter ++; 
+    timeLeft -=10;
+    setContent();}, 2000);
 }
 }
 
