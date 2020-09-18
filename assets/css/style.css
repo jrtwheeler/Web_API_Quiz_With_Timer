@@ -23,7 +23,7 @@ body {
   padding-right: 20px;
 }
 
-header, #score {
+header {
   text-align: center;
   padding: 20px;
   padding-top: 0px;
@@ -36,7 +36,7 @@ header, #score {
   text-align: center;
 }
 
-.card, .high_score {
+.card {
   background-color: hsl(0, 0%, 100%);
   border-radius: 5px;
   border-width: 1px;
@@ -56,11 +56,12 @@ header, #score {
   height: 2px;
 }
 
-.timer {
+.timer, #score {
   min-height: 100px;
   text-align: center;
   font-size: 22px;
   line-height: 22px;
+  margin-bottom: 0;
 }
 
 .card-footer {
@@ -116,5 +117,4 @@ header, #score {
   text-align: center;
   cursor: pointer;
 }
-
 

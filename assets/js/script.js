@@ -190,7 +190,7 @@ function helper (answer) {
   setTimeout(function(){ 
     scoreCounter +=1;
     questionCounter ++; 
-    setContent();}, 2000);
+    setContent();}, 1000);
 }
 
 function wrongAnswer (){
@@ -202,7 +202,7 @@ function wrongAnswer (){
   setTimeout(function(){ 
     questionCounter ++; 
     timeLeft -=10;
-    setContent();}, 2000);
+    setContent();}, 1000);
 }
 }
 
