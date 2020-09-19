@@ -105,6 +105,7 @@ function setContent() {
     return;
   }
 
+
   //Clear the cardText text content
   cardText.innerHTML = "";
 
@@ -162,3 +163,4 @@ function setContent() {
     document.getElementById("list").appendChild(item);
     setTimeout(setContent, 1 * 1000);
   }
+}
