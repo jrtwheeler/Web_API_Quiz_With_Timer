@@ -6,19 +6,20 @@ var myQuestions = [
       a: "Douglas Crockford",
       b: "Sheryl Sandberg",
       c: "Brendan Eich",
-      d: "Steve Jobs"
+      d: "Steve Jobs",
     },
-    correctAnswer: "Douglas Crockford"
+    correctAnswer: "Douglas Crockford",
   },
   {
-    question: "Which one of these is one of three languages all web developers must learn?",
+    question:
+      "Which one of these is one of three languages all web developers must learn?",
     answers: {
       a: "Javascript",
       b: "CSS",
       c: "HTML",
-      d: "All of the above"
+      d: "All of the above",
     },
-    correctAnswer: "All of the above"
+    correctAnswer: "All of the above",
   },
   {
     question: "How is a comment written in Javascript?",
@@ -26,9 +27,9 @@ var myQuestions = [
       a: "//",
       b: "<-- -->",
       c: "/*",
-      d: "@Comment"
+      d: "@Comment",
     },
-    correctAnswer: "//"
+    correctAnswer: "//",
   },
   {
     question: "JavaScript variables are containers for storing:",
@@ -36,10 +37,10 @@ var myQuestions = [
       a: "data values",
       b: "strings",
       c: "booleans",
-      d: "numbers"
+      d: "numbers",
     },
-    correctAnswer: "data values"
-  }
+    correctAnswer: "data values",
+  },
 ];
 //Use querySelector to select the timer
 var timerElement = document.querySelector(".timer");
@@ -53,163 +54,111 @@ var timeLeft = 60;
 var scoreCounter = 0;
 //Set the question counter
 var questionCounter = 0;
-//Set the length of the quiz. When the user answers the number of questions that equal the length of the quiz, the quiz will end.
-var quizLength = myQuestions.length;
+//Set intervalID
+var timerInterval;
 //This is the introductory paragraph
-var myIntro = "Try to answer the following coding questions in one minute. Every wrong answer takes ten seconds from the timer. Press start to begin."
+var myIntro =
+  "Try to answer the following coding questions in one minute. Every wrong answer takes ten seconds from the timer. Press start to begin.";
+
+startScreen(myIntro);
+submitButton.addEventListener("click", startButton);
+
 //The timer function. The timer function starts running when the user clicks the Start button and is called in function startScreen();
 function setTime() {
-  var timerInterval = setInterval(function() {
+  clearInterval(timerInterval);
+
+  timerInterval = setInterval(function () {
     timeLeft--;
-    timerElement.textContent = "Timer: 0:" + timeLeft;
-    
-    if(timeLeft < 10) {
-      timerElement.textContent = "Timer: 0:0" + timeLeft;
-    }
-    if(timeLeft === 0) {
+    timerElement.textContent = timeLeft;
+
+    if (timeLeft)
+    if (timeLeft === 0) {
       clearInterval(timerInterval);
       window.open("high_score.html", "_self");
     }
-  
   }, 1000);
 }
 
 //Set the styling for the start screen intro paragraph
-function startScreen (content) {
-    cardText.textContent = content;
-    cardText.setAttribute("style", "text-align: center;");
-    cardText.setAttribute("style", "font-size: 16px;");
+function startScreen(content) {
+  cardText.textContent = content;
+  cardText.setAttribute("style", "text-align: center;");
+  cardText.setAttribute("style", "font-size: 16px;");
 }
 
 //Start button is called in init. It sets up the start screen.
-function startButton (){
-  
-  submitButton.addEventListener("click", function(){
-    //Call the setTime function to start the timer
-    setTime();
-    //Call the setContent button to start the quiz section
-    setContent();
-    //hide Start button
-    submitButton.style.display = 'none';
-  })
+function startButton() {
+  //Call the setTime function to start the timer
+  setTime();
+  //Call the setContent button to start the quiz section
+  setContent();
+  //hide Start button
+  submitButton.style.display = "none";
 }
 
-//The set content function takes data from the myQuestions object to start the quiz 
-function setContent(){
-
+//The set content function takes data from the myQuestions object to start the quiz
+function setContent() {
   //if the questionCounter is less than the length of the quiz ...
-  if (questionCounter < quizLength){
+  if (questionCounter >= myQuestions.length) {
+    localStorage.setItem("scoreCounter", scoreCounter);
+    window.open("high_score.html", "_self");
+    return;
+  }
+
   //Clear the cardText text content
-  cardText.textContent = "";
+  cardText.innerHTML = "";
+
+  var list = document.createElement("div");
+  list.id = "list";
+  list.classList.add("list-group");
   //Q is the question at the questionCounter array position. Each time the user answers a question, one is added to the question counter, moving onto the next question
   var q = myQuestions[questionCounter];
-  //Create a paragraph element
-  var questionParagraph = document.createElement("p");
-  //Give the paragraph element an id
-  questionParagraph.id = "quiz_question";
-  //Append the paragraph element to the cardText
-  cardText.appendChild(questionParagraph);
-  //Select the paragraph element by id
-  var questionParagraphSelector = document.querySelector("#quiz_question");
-  //Put the question from the the myQuestion object into the newly created paragraph element
-  questionParagraphSelector.textContent = q.question;
-  //Create a list element
-  var myList = document.createElement("UL");
-  questionParagraphSelector.appendChild(myList);
 
-  var listItemOne = document.createElement("LI");
-  myList.appendChild(listItemOne);
-  var buttonOne = document.createElement("BUTTON");
-  listItemOne.appendChild(buttonOne);
-  buttonOne.id = "quiz_button";
-  buttonOne.textContent = q.answers.a;
-  buttonOne.addEventListener("click", function(){
-    if(q.answers.a === q.correctAnswer){
-      helper ("Right answer:");
+  var question = document.createElement("div");
+  question.textContent = q.question;
+
+  var options = Object.entries(q.answers);
+
+  for (var i = 0; i < options.length; i++) {
+    var item = document.createElement("div");
+    item.classList.add("list-group-item");
+    item.setAttribute("data-key", options[i][0]);
+    item.textContent = `${options[i][0].toUpperCase()}: ${options[i][1]}`;
+    item.addEventListener("click", checkAnswer);
+    list.appendChild(item);
+  }
+
+  cardText.appendChild(question);
+  cardText.appendChild(list);
+
+  function checkAnswer() {
+    var selected =
+      myQuestions[questionCounter].answers[
+        this.getAttribute("data-key").toLowerCase()
+      ];
+    var correct = myQuestions[questionCounter].correctAnswer;
+    console.log(selected, correct);
+
+    if (selected === correct) {
+      this.classList.add("bg-success");
+      scoreCounter += 1;
+      // return displayMessage("YAY", "bg-success")
     } else {
-      wrongAnswer ();
+      this.classList.add("bg-danger");
+      timeLeft -= 10;
     }
-     
-  })
 
-  var listItemTwo = document.createElement("LI");
-  myList.appendChild(listItemTwo);
-  var buttonTwo = document.createElement("BUTTON");
-  listItemTwo.appendChild(buttonTwo);
-  buttonTwo.id = "quiz_button";
-  buttonTwo.textContent = q.answers.b;
-  buttonTwo.addEventListener("click", function(){
-    if(q.answers.b === q.correctAnswer){
-      helper ("Right answer:");
-    } else {
-      wrongAnswer ();
-    }
-     
-  })
+    questionCounter++;
+    setTimeout(setContent, 1 * 1000);
+    // displayMessage("NO!", "bg-danger")
+  }
 
-  var listItemThree = document.createElement("LI");
-  myList.appendChild(listItemThree);
-  var buttonThree = document.createElement("BUTTON");
-  listItemThree.appendChild(buttonThree);
-  buttonThree.id = "quiz_button";
-  buttonThree.textContent = q.answers.c;
-  buttonThree.addEventListener("click", function(){
-    if(q.answers.c === q.correctAnswer){
-      helper ("Right answer:");
-    } else {
-      wrongAnswer ();
-    }
-     
-  })
+  function displayMessage(message, color) {
+    var item = document.createElement("div");
+    item.classList.add("list-group-item");
+    item.classList.add(color);
+    item.textContent = message;
 
-  var listItemFour = document.createElement("LI");
-  myList.appendChild(listItemFour);
-  var buttonFour = document.createElement("BUTTON");
-  listItemFour.appendChild(buttonFour);
-  buttonFour.id = "quiz_button";
-  buttonFour.textContent = q.answers.d;
-  buttonFour.addEventListener("click", function(){
-    if(q.answers.d === q.correctAnswer){
-      helper ("Right answer:");
-    } else {
-      wrongAnswer ();
-    }
-     
-  })
-} else {
-  localStorage.setItem("scoreCounter", scoreCounter)
-  window.open("high_score.html", "_self");
-}
-
-function helper (answer) {
-  var listItemAnswer = document.createElement("LI");
-  myList.appendChild(listItemAnswer);
-  listItemAnswer.id = "quiz_answer";
-  listItemAnswer.textContent = answer + " " + q.correctAnswer;
-  console.log(q.correctAnswer)
-  setTimeout(function(){ 
-    scoreCounter +=1;
-    questionCounter ++; 
-    setContent();}, 1000);
-}
-
-function wrongAnswer (){
-  var listItemAnswer = document.createElement("LI");
-  myList.appendChild(listItemAnswer);
-  listItemAnswer.id = "quiz_answer";
-  listItemAnswer.textContent = "Wrong answer";
-  console.log(q.correctAnswer)
-  setTimeout(function(){ 
-    questionCounter ++; 
-    timeLeft -=10;
-    setContent();}, 1000);
-}
-}
-
-function init (){
-  startScreen (myIntro);
-  startButton ();
-}
-
-
-init ();
+    document.getElementById("list").appendChild(item);
+    setTimeout(setContent, 1 * 1000);
+  }
