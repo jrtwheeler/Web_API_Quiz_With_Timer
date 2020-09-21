@@ -58,6 +58,8 @@ var timeLeft = 60;
 var scoreCounter = 0;
 //Set the question counter
 var questionCounter = 0;
+//progressbar 
+var progbar = 0;
 //Set intervalID
 var timerInterval;
 //This is the introductory paragraph
@@ -74,10 +76,13 @@ function setTime() {
 
   timerInterval = setInterval(function () {
     timeLeft--;
-    timerElement.textContent = timeLeft;
+    timerElement.textContent = "0:" + timeLeft;
 
-    if (timeLeft)
-    if (timeLeft === 0) {
+    if (timeLeft < 10) {
+      timerElement.textContent = "0:0" + timeLeft;
+    }
+
+    if (timeLeft <= 1) {
       clearInterval(timerInterval);
       window.open("high_score.html", "_self");
     }
@@ -118,6 +123,8 @@ function setContent() {
 
   //Clear the cardText text content
   cardText.innerHTML = "";
+  //start progBar
+  move();
 
   var list = document.createElement("div");
   list.id = "list";
@@ -163,3 +170,20 @@ function setContent() {
 
 }
 
+function move() {
+  if (progbar == 0) {
+    progbar = 1;
+    var elem = document.getElementById("myBar");
+    var width = 1;
+    var id = setInterval(frame, 1000);
+    function frame() {
+      if (width >= 100) {
+        clearInterval(id);
+        progbar = 0;
+      } else {
+        width++;
+        elem.style.width = width + "%";
+      }
+    }
+  }
+}

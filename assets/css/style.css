@@ -126,5 +126,5 @@ header {
 #myBar {
   width: 1%;
   height: 30px;
-  background-color: "bg-success";
+  background-color: rgb(34, 76, 138);
 }
