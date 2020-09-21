@@ -48,6 +48,10 @@ var timerElement = document.querySelector(".timer");
 var cardText = document.querySelector(".question");
 //Use querySelector to select the Submit button
 var submitButton = document.querySelector(".btn");
+//Progress bar
+var progressBar = document.querySelector("#myProgress");
+//animate progress bar
+var progressBarValue = document.getElementById("#myBar");
 //Set the start time for the timer. When the timer reaches 0 the script will end.
 var timeLeft = 60;
 //Set the score counter
@@ -62,6 +66,7 @@ var myIntro =
 
 startScreen(myIntro);
 submitButton.addEventListener("click", startButton);
+
 
 //The timer function. The timer function starts running when the user clicks the Start button and is called in function startScreen();
 function setTime() {
@@ -84,6 +89,7 @@ function startScreen(content) {
   cardText.textContent = content;
   cardText.setAttribute("style", "text-align: center;");
   cardText.setAttribute("style", "font-size: 16px;");
+  progressBar.style.display = "none";
 }
 
 //Start button is called in init. It sets up the start screen.
@@ -94,10 +100,14 @@ function startButton() {
   setContent();
   //hide Start button
   submitButton.style.display = "none";
+  //show progress bar
+  progressBar.style.display = "flex";
+  
 }
 
 //The set content function takes data from the myQuestions object to start the quiz
 function setContent() {
+
   //if the questionCounter is less than the length of the quiz ...
   if (questionCounter >= myQuestions.length) {
     localStorage.setItem("scoreCounter", scoreCounter);
@@ -138,12 +148,10 @@ function setContent() {
         this.getAttribute("data-key").toLowerCase()
       ];
     var correct = myQuestions[questionCounter].correctAnswer;
-    console.log(selected, correct);
 
     if (selected === correct) {
       this.classList.add("bg-success");
       scoreCounter += 1;
-      // return displayMessage("YAY", "bg-success")
     } else {
       this.classList.add("bg-danger");
       timeLeft -= 10;
@@ -151,16 +159,7 @@ function setContent() {
 
     questionCounter++;
     setTimeout(setContent, 1 * 1000);
-    // displayMessage("NO!", "bg-danger")
   }
 
-  function displayMessage(message, color) {
-    var item = document.createElement("div");
-    item.classList.add("list-group-item");
-    item.classList.add(color);
-    item.textContent = message;
-
-    document.getElementById("list").appendChild(item);
-    setTimeout(setContent, 1 * 1000);
-  }
 }
+
