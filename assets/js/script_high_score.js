@@ -8,6 +8,7 @@ var restartButton = document.querySelector("#restart");
 var scoreArray = [];
 var score = localStorage.getItem("scoreCounter");
 scoreOutput.textContent = "Final Score: " + score;
+var entries = [];
 
 init();
 
